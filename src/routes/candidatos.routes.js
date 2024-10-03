@@ -4,18 +4,19 @@ const candidatosRoutes = Router ()
 
 let candidatos = [
     {
-        id: Math.random() * 1000000,
+        id: Math.floor (Math.random () * 100),
         nome: "Bonsonario",
         partido: "Aleatorio",
         idade: 22,
         segundo: false,
         propostas:  [
-            "webhwdbhwdb",
+            "aumento do salário minimo",
+            "redução de impostos",
+            "mais investimentos na educação",
         ]
-
     },
     {
-        id: 2,
+        id: Math.floor (Math.random () * 100),
         nome: "Capitã Lucimara",
         partido: "PSD",
         idade: 24,
@@ -26,15 +27,41 @@ let candidatos = [
             "Mais investimentos na educação",
         ]
     },
-    {
-        id: 3,
-        nome: ""
-    }
-   
+
 ]
-//rota para buscar todas as emoções
+
 candidatosRoutes.get("/", (req, res) => {
-    return res.status(200).send(candidatos)
+    return res.status(200)
+    .send(candidatos)
 })
+
+candidatosRoutes.post("/", (req, res) => {
+    const { nome, partido, idade, segundo, propostas } = req.body;
+
+    if ( !nome || !partido) {
+        return res.status(400).send({message: "Preencha todos os campos"})
+    }
+
+    if (idade < 18) {
+        return res.status(400).send({message: "Idade inválida"})
+    }
+
+    const novoCandidato = {
+        id: Math.floor(Math.random() * 100),
+        nome,
+        partido,
+        idade,
+        segundo,
+        propostas,
+    }
+
+    candidatos.push(novoCandidato);
+    return res.status(201).json({
+        message: "Candidato cadastrado com sucesso",
+        novoCandidato,
+    });
+});
+
+
 
 export default candidatosRoutes

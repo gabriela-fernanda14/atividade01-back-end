@@ -9,4 +9,5 @@ routes.get("/", (req, res) => {
 });
 
 routes.use("/candidatos", candidatosRoutes);
+
 export default routes;
