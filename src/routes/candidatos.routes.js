@@ -61,7 +61,17 @@ candidatosRoutes.post("/", (req, res) => {
         novoCandidato,
     });
 });
+candidatosRoutes.get("/:id", (req, res) => {
+    const { id } = req.params;
 
+    const candidato = candidatos.find((politico) => politico.id == id);
+
+    if (!candidato) {
+        return res.status(404).send({ message: "Candidato não encontrado" });
+    }
+
+    return res.status(200).json(candidato);
+});
 
 
 export default candidatosRoutes
